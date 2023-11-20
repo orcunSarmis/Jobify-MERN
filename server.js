@@ -4,10 +4,19 @@ import express from'express';
 const app = express();
 import morgan from 'morgan';
 
-if(process.env.NODE_ENV=== 'develpment') {
-	app.use(morgan('dev'));
+try {
+	const response = await fetch(
+		'https://www.course-api.com/react-useReducer-cart-project'
+	);
+	const cartData = await response.json();
+	console.log(cartData);
+} catch (error) {
+	console.log(error);
 }
 
+if(process.env.NODE_ENV=== 'development') {
+	app.use(morgan('dev'));
+}
 
 app.use(express.json());
 
@@ -21,7 +30,10 @@ app.post('/', (req, res) => {
 	res.json({ message: 'Data received', data: req.body });
 });
 
-app.listen(5100, () => {
-	console.log('oldu bu is...');
+const port = process.env.PORT || 5100
+
+
+app.listen(port, () => {
+	console.log(`oldu bu is PORT ${port}...`);
 });
 
